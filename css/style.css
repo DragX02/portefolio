@@ -1,0 +1,11 @@
+
+.home-icon {
+  width: 10%;    
+  height: 10%;   
+  object-fit: contain; 
+}
+
+.nav-item img {
+  width: 24%;
+  height: 24%;
+}
