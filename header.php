@@ -7,22 +7,28 @@
     <title>portfolio Olbrechts johan</title>
     <link rel="stylesheet" href="css\style.css">
 </head>
-<body>
-    <header>
-        <h1>Mon Premier Modèle de Page Dynamique</h1>
+    <header class="background">
         <nav>
-            <ul>
-             <li class="nav-item">
+        <ul class="nav">
+            <li class="nav-item">
                 <a class="nav-link" href="index.php" aria-label="Accueil">
-                        <img class="home-icon" src="Image\logo\accueil.png"  alt="Accueil">
-                                    <span class="nav-text">Accueil</span></a></li>
-                                    <li class="nav-item">
-                <a class="nav-link" href="index.php" aria-label="À Propos">
-                        <img class="home-icon" src="Image\logo\About2.png"  alt="Á Propos">
-                                    <span class="nav-text">Á Propos</span></a></li>
-                
-                <li><a href="contact.php">Contact</a></li>
-            </ul>
+                    <img class="nav-icon" src="Image/logo/accueil.png" alt="Accueil">
+                    <span class="nav-text">Accueil</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="a-propos.php" aria-label="À Propos">
+                    <img class="nav-icon" src="Image/logo/About2.png" alt="À Propos">
+                    <span class="nav-text">À Propos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="contact.php" aria-label="Contact">
+                    <img class="nav-icon" src="Image/logo/contact.png" alt="Contact">
+                    <span class="nav-text">Contact</span>
+                </a>
+            </li>
+        </ul>
         </nav>
-    </header>
-    <main>
+</header>
+    

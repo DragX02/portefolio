@@ -1,11 +1,123 @@
-
+/* Icônes */
 .home-icon {
-  width: 10%;    
-  height: 10%;   
-  object-fit: contain; 
+  width: 24px;       /* Utilise des pixels pour une taille fixe et cohérente */
+  height: 24px;      /* Idem */
+  object-fit: contain;
 }
 
 .nav-item img {
-  width: 24%;
-  height: 24%;
+  width: 24px;       /* Taille fixe pour les icônes de navigation */
+  height: 24px;      /* Idem */
+}
+
+/* Navigation */
+.nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 20px;
+  align-items: center; 
+  align-self: center;
+  justify-content: center
+}
+
+.nav-item {
+  /* Ajoute un peu d'espace autour des liens de navigation */
+  padding: 5px 0;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s; /* Effet de transition au survol */
+}
+
+.nav-link:hover {
+  color: #007BFF; /* Changement de couleur au survol */
+}
+
+.nav-icon {
+  margin-right: 8px; /* Espacement entre l'icône et le texte */
+}
+
+/* Arrière-plan */
+.background {
+  background-color: transparent; /* 'null' n'est pas une valeur CSS valide */
+}
+
+/* Formulaire */
+.formbody {
+  margin: 20px auto; /* Centrage avec marge verticale */
+  width: 100%;
+  max-width: 400px; /* Largeur max pour éviter l'étirement sur grands écrans */
+  padding: 2em;
+  border: 1px solid #ccc; /* Bordure plus discrète */
+  border-radius: 0.5em;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Ombre légère pour le relief */
+}
+
+/* Styles généraux */
+body {
+  font-family: Arial, sans-serif;
+  max-width: 800px; /* Augmenté pour plus de confort */
+  margin: 0 auto;
+  padding: 20px;
+  line-height: 1.6; /* Meilleure lisibilité */
+}
+
+/* Champs de formulaire */
+.form-group {
+  margin-bottom: 1.5em;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5em;
+  font-weight: bold; /* Mise en valeur des labels */
+}
+
+input, textarea {
+  width: 100%;
+  padding: 0.75em;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1em;
+}
+
+textarea {
+  height: 120px;
+  resize: vertical; /* Permet de redimensionner verticalement */
+}
+
+button {
+  padding: 10px 15px;
+  background: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #0056b3; /* Effet au survol */
+}
+
+/* Messages d'erreur/succès */
+.error {
+  color: #dc3545;
+  margin-bottom: 1em;
+}
+
+.success {
+  color: #28a745;
+  margin-bottom: 1em;
+}
+.footer{
+  text-align: center;
 }
