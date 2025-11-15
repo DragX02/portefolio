@@ -28,6 +28,12 @@
                     <span class="nav-text">Contact</span>
                 </a>
             </li>
+             <li class="nav-item">
+                <a class="nav-link" href="user.php" aria-label="User">
+                    <img class="nav-icon" src="Image/logo/User.png" alt="User">
+                    <span class="nav-text">User</span>
+                </a>
+            </li>
         </ul>
         </nav>
 </header>
