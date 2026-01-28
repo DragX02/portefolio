@@ -1,16 +1,34 @@
-/* Icônes */
+
 .home-icon {
-  width: 24px;       /* Utilise des pixels pour une taille fixe et cohérente */
-  height: 24px;      /* Idem */
+  width: 24px;
+  height: 24px;
   object-fit: contain;
 }
 
 .nav-item img {
-  width: 24px;       /* Taille fixe pour les icônes de navigation */
-  height: 24px;      /* Idem */
+  width: 24px;
+  height: 24px;
 }
 
-/* Navigation */
+nav {
+  background: #333;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
 .nav {
   list-style: none;
   padding: 0;
@@ -23,7 +41,6 @@
 }
 
 .nav-item {
-  /* Ajoute un peu d'espace autour des liens de navigation */
   padding: 5px 0;
 }
 
@@ -31,44 +48,42 @@
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: #333;
-  transition: color 0.3s; /* Effet de transition au survol */
+  color: white;
+  transition: color 0.3s;
 }
 
 .nav-link:hover {
-  color: #007BFF; /* Changement de couleur au survol */
+  color: #007BFF;
 }
 
 .nav-icon {
-  margin-right: 8px; /* Espacement entre l'icône et le texte */
+  margin-right: 8px;
 }
 
-/* Arrière-plan */
 .background {
-  background-color: transparent; /* 'null' n'est pas une valeur CSS valide */
+  background-color: #333;
+  padding: 10px;
+  border-radius: 5px;
 }
 
-/* Formulaire */
 .formbody {
-  margin: 20px auto; /* Centrage avec marge verticale */
+  margin: 20px auto;
   width: 100%;
-  max-width: 400px; /* Largeur max pour éviter l'étirement sur grands écrans */
+  max-width: 400px;
   padding: 2em;
-  border: 1px solid #ccc; /* Bordure plus discrète */
+  border: 1px solid #ccc;
   border-radius: 0.5em;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Ombre légère pour le relief */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Styles généraux */
 body {
   font-family: Arial, sans-serif;
-  max-width: 800px; /* Augmenté pour plus de confort */
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  line-height: 1.6; /* Meilleure lisibilité */
+  line-height: 1.6;
 }
 
-/* Champs de formulaire */
 .form-group {
   margin-bottom: 1.5em;
 }
@@ -76,7 +91,7 @@ body {
 label {
   display: block;
   margin-bottom: 0.5em;
-  font-weight: bold; /* Mise en valeur des labels */
+  font-weight: bold;
 }
 
 input, textarea {
@@ -90,7 +105,7 @@ input, textarea {
 
 textarea {
   height: 120px;
-  resize: vertical; /* Permet de redimensionner verticalement */
+  resize: vertical;
 }
 
 button {
@@ -105,10 +120,9 @@ button {
 }
 
 button:hover {
-  background: #0056b3; /* Effet au survol */
+  background: #0056b3;
 }
 
-/* Messages d'erreur/succès */
 .error {
   color: #dc3545;
   margin-bottom: 1em;
@@ -118,6 +132,89 @@ button:hover {
   color: #28a745;
   margin-bottom: 1em;
 }
+
+.btn-disconnected {
+  padding: 8px 15px;
+  background-color: #dc3545 !important;
+  color: white !important;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-disconnected:hover {
+  background-color: #c82333 !important;
+  color: white !important;
+}
+
+.btn-connected {
+  padding: 8px 15px;
+  background-color: #28a745 !important;
+  color: white !important;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-connected:hover {
+  background-color: #218838 !important;
+  color: white !important;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  cursor: pointer;
+}
+
+.dropdown-toggle:hover {
+  text-decoration: none;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  z-index: 1000;
+  display: none;
+}
+
+.dropdown-menu li {
+  margin: 0;
+}
+
+.dropdown-menu li a {
+  display: block;
+  padding: 12px 20px;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  border: none;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #f0f0f0;
+  color: #007BFF;
+}
+
+.dropdown-menu li:first-child a {
+  border-radius: 4px 4px 0 0;
+}
+
+.dropdown-menu li:last-child a {
+  border-radius: 0 0 4px 4px;
+}
+
 .footer{
   text-align: center;
 }

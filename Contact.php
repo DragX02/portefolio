@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'header.php';
 
 
@@ -11,7 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $prenom = trim(($_POST["prenom"] ?? ''));
     $email = trim(($_POST["email"] ?? ''));
     $message = trim(($_POST["message"] ?? ''));
-
     
     if (empty($nom)) {
         $erreurs[] = "Le nom est obligatoire.";
@@ -22,7 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($prenom) && (strlen($prenom) < 2 || strlen($prenom) > 255)) {
         $erreurs[] = "Le prénom doit contenir entre 2 et 255 caractères.";
     }
-
     
     if (empty($email)) {
         $erreurs[] = "L'email est obligatoire.";
@@ -38,7 +37,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($erreurs)) {
         $success = true;
-        
     }
 }
 
