@@ -7,6 +7,7 @@
     <title>portfolio Olbrechts johan</title>
     <link rel="stylesheet" href="css\style.css">
     <script src="js/script.js"></script>
+    <script src="js/theme.js" defer></script>
 </head>
 <?php
 if (session_status() === PHP_SESSION_NONE) {
@@ -77,6 +78,9 @@ if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_me'])) {
                         <span class="nav-text">Connexion</span>
                     </a>
                 <?php endif; ?>
+            </li>
+            <li class="nav-item">
+                <button id="theme-toggle" class="theme-toggle" aria-label="Basculer thème">☀️</button>
             </li>
         </ul>
         </nav>

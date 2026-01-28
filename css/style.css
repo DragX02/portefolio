@@ -218,3 +218,32 @@ button:hover {
 .footer{
   text-align: center;
 }
+ 
+/* Dark mode */
+.dark-mode, html.dark-mode {
+  background: #121212;
+  color: #eaeaea;
+}
+
+.dark-mode nav, html.dark-mode nav {
+  background: #222;
+}
+
+.dark-mode .formbody {
+  background: #1b1b1b;
+  border-color: #333;
+}
+
+.dark-mode .dropdown-menu {
+  background: #1e1e1e;
+  color: #ddd;
+  border-color: #333;
+}
+
+.theme-toggle {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
