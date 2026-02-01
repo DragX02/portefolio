@@ -21,7 +21,7 @@ class themeClairDark {
   toggle() {
     const isDark = document.documentElement.classList.contains(this.className);
     const newTheme = isDark ? 'light' : 'dark';
-    this   definiTheme(newTheme);
+    this.definiTheme(newTheme);
     const btn = document.querySelector(this.buttonSelector);
     if (btn) this.updateButton(btn);
   }

@@ -6,6 +6,8 @@
     <meta name="description" content="<?php echo isset($metaDescription) ? htmlspecialchars($metaDescription) : 'Mon Premier Modèle de Page Dynamique'; ?>">
     <title>portfolio Olbrechts johan</title>
     <link rel="stylesheet" href="css\style.css">
+    <link rel="stylesheet" href="css\theme.css">
+    <link rel="stylesheet" href="css\carousel.css">
     <script src="js/script.js"></script>
     <script src="js/theme.js" defer></script>
 </head>
@@ -41,6 +43,7 @@ if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_me'])) {
     }
 }
 ?>
+<body<?php echo isset($bodyClass) ? ' class="'.htmlspecialchars($bodyClass).'"' : ''; ?>>
     <header class="background">
         <nav>
         <ul class="nav">
