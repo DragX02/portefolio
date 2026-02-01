@@ -26,19 +26,5 @@
   cursor: pointer;
 }
 
-.box-carou {
-  perspective: 1200px;
-  position: relative !important;
-  display: block !important;
-  gap: 0 !important;
-  flex-wrap: nowrap !important;
-}
 
-.box-carou .carousel-image {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  border-radius: 16px !important;
-  border: 5px solid rgba(255, 255, 255, 0.9) !important;
-}
 

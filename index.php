@@ -7,7 +7,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'header.php';
 
 <main class="index-main">
     <div class="index-left">
-        <div class="box-carou" id="carousel3d"></div>
+        <div id="carousel3d"></div>
     </div>
 
     <aside class="index-right">
@@ -18,6 +18,6 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'header.php';
     </aside>
 </main>
 
-<script src="js/simple-3d-carousel.js" defer></script>
+<script src="js/carou.js" defer></script>
 
 <?php require_once __DIR__ . DIRECTORY_SEPARATOR . 'footer.php'; ?>

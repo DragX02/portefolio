@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="<?php echo isset($metaDescription) ? htmlspecialchars($metaDescription) : 'Mon Premier Modèle de Page Dynamique'; ?>">
     <title>portfolio Olbrechts johan</title>
-    <link rel="stylesheet" href="css\style.css">
-    <link rel="stylesheet" href="css\theme.css">
-    <script src="js/script.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <script src="js/script.js" defer></script>
     <script src="js/theme.js" defer></script>
 </head>
 <?php
@@ -86,6 +86,4 @@ if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_me'])) {
             </li>
         </ul>
         </nav>
-</header>
-    
-    
+    </header>
