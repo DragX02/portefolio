@@ -1,5 +1,6 @@
 class Carousel3D {
   constructor(config) {
+    console.log('Carousel3D constructor called with config:', config);
     this.carousel = document.getElementById(config.containerId || 'carousel3d');
     this.images = config.images || [];
     this.radius = (typeof config.radius === 'number') ? config.radius : null; // compute if null
@@ -7,6 +8,9 @@ class Carousel3D {
     this.direction = 1;
     this.speed = config.defaultSpeed || 20;
     this._items = [];
+
+    console.log('Carousel element found:', this.carousel);
+    console.log('Images array:', this.images);
 
     if (!this.carousel) {
       console.error('Carousel container not found!');
@@ -64,7 +68,14 @@ class Carousel3D {
     img.alt = imageData.title;
     img.className = 'carousel-image';
 
+    console.log('Creating image with src:', img.src);
+
+    img.addEventListener('load', () => {
+      console.log('Image loaded successfully:', img.src);
+    });
+
     img.addEventListener('error', () => {
+      console.error('Image failed to load:', img.src);
       const missing = document.createElement('div');
       missing.className = 'img-missing';
       missing.textContent = 'Pas trouvé dans Image';
@@ -104,11 +115,10 @@ class Carousel3D {
       const depth = Math.cos(angleRad);
       const scale = 0.6 + 0.4 * ((depth + 1) / 2);
 
-      item.style.position = 'absolute';
-      item.style.left = '50%';
-      item.style.top = '50%';
-      item.style.transformStyle = 'preserve-3d';
-      item.style.transform = `rotateY(${angle}deg) translateZ(${this.radius}px) scale(${scale})`;
+      // Temporairement désactiver les transformations 3D pour déboguer
+      item.style.transform = `translate(-50%, -50%)`;
+      item.style.left = `${50 + Math.cos(angleRad) * 100}px`;
+      item.style.top = `${50 + Math.sin(angleRad) * 100}px`;
       item.style.zIndex = String(Math.round((depth + 1) * 100));
 
       const inner = item.querySelector('.carousel-item-inner');
@@ -204,41 +214,133 @@ class Carousel3D {
   }
 }
 
+class Carousel3D {
+  constructor(config) {
+    this.carousel = document.getElementById(config.containerId || 'carousel3d');
+    this.images = config.images || [];
+    this.radius = config.radius || 200;
+    this.isPaused = false;
+    this.direction = 1;
+    this.speed = config.defaultSpeed || 20;
+    this._items = [];
+
+    if (!this.carousel) {
+      console.error('Carousel container not found!');
+      return;
+    }
+
+    if (this.images.length === 0) {
+      console.error('No images provided!');
+      return;
+    }
+
+    this.init();
+  }
+
+  init() {
+    this.createCarousel();
+    this.positionItems();
+  }
+
+  positionItems() {
+    const total = this._items.length;
+    const angleStep = 360 / total;
+
+    this._items.forEach((item, index) => {
+      const angle = angleStep * index;
+
+      // Positionnement 3D circulaire
+      item.style.position = 'absolute';
+      item.style.left = '50%';
+      item.style.top = '50%';
+      item.style.transformStyle = 'preserve-3d';
+      item.style.transform = `translate(-50%, -50%) rotateY(${angle}deg) translateZ(${this.radius}px)`;
+      item.style.width = '200px';
+      item.style.height = '150px';
+    });
+
+    // Démarrer l'animation
+    this.startAnimation();
+  }
+
+  startAnimation() {
+    this.carousel.style.animation = `carouselRotate ${this.speed}s linear infinite`;
+  }
+
+  createCarousel() {
+    // Vider le carousel d'abord
+    this.carousel.innerHTML = '';
+
+    this.images.forEach((imageData, index) => {
+      const item = this.createCarouselItem(imageData, index);
+      this._items.push(item);
+      this.carousel.appendChild(item);
+    });
+  }
+
+  createCarouselItem(imageData, index) {
+    const item = document.createElement('div');
+    item.className = 'carousel-item';
+    item.setAttribute('data-index', index);
+
+    const imgWrap = document.createElement('div');
+    imgWrap.className = 'carousel-item-inner';
+
+    const img = document.createElement('img');
+    img.src = imageData.url;
+    img.alt = imageData.title || `Image ${index + 1}`;
+    img.className = 'carousel-image';
+
+    img.addEventListener('error', () => {
+      const missing = document.createElement('div');
+      missing.className = 'img-missing';
+      missing.textContent = 'Image non trouvée';
+      missing.style.width = '100%';
+      missing.style.height = '100%';
+      missing.style.display = 'flex';
+      missing.style.alignItems = 'center';
+      missing.style.justifyContent = 'center';
+      missing.style.background = 'red';
+      missing.style.color = 'white';
+      if (img.parentNode) img.parentNode.replaceChild(missing, img);
+    });
+
+    imgWrap.appendChild(img);
+    item.appendChild(imgWrap);
+
+    return item;
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const carouselConfig = {
     containerId: 'carousel3d',
-    radius: 450,
+    radius: 200,
     defaultSpeed: 20,
     images: [
       {
         url: 'Image/carousel/Clown.png',
-        title: 'Image 1',
-        description: 'Première image du carousel'
+        title: 'Image 1'
       },
       {
         url: 'Image/carousel/logo_dragx.png',
-        title: 'Image 2',
-        description: 'Deuxième image du carousel'
+        title: 'Image 2'
       },
       {
-        url: 'Image/carousel/Clown.png',
-        title: 'Image 3',
-        description: 'Troisième image du carousel'
+        url: 'Image/carousel/Vikic.png',
+        title: 'Image 3'
       },
       {
-        url: 'Image/carousel/logo_dragx.png',
-        title: 'Image 4',
-        description: 'Quatrième image du carousel'
+        url: 'Image/carousel/ChatGPT%20Image%2029%20janv.%202026,%2020_18_41.png',
+        title: 'Image 4'
       },
       {
-        url: 'Image/carousel/Clown.png',
-        title: 'Image 5',
-        description: 'Cinquième image du carousel'
+        url: 'Image/carousel/ChatGPT%20Image%2029%20janv.%202026,%2020_18_44.png',
+        title: 'Image 5'
       },
       {
-        url: 'Image/carousel/logo_dragx.png',
-        title: 'Image 6',
-        description: 'Sixième image du carousel'
+        url: 'Image/carousel/ChatGPT%20Image%2029%20janv.%202026,%2020_18_48.png',
+        title: 'Image 6'
       }
     ]
   };

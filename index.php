@@ -18,6 +18,6 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'header.php';
     </aside>
 </main>
 
-<script src="js/carou.js" defer></script>
+<script src="js/simple-3d-carousel.js" defer></script>
 
 <?php require_once __DIR__ . DIRECTORY_SEPARATOR . 'footer.php'; ?>

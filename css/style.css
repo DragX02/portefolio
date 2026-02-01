@@ -41,7 +41,9 @@
   width: 100%;
   max-width: 880px;
   height: 560px;
-  perspective: 1400px;
+  perspective: 1200px;
+  position: relative;
+  transform-style: preserve-3d;
 }
 
 .home-icon {
@@ -278,27 +280,17 @@ button:hover {
   max-width: 880px;
   aspect-ratio: 16 / 10;
   transform-style: preserve-3d;
-  animation: orbitalRotate 20s linear infinite;
   perspective: 1500px;
   margin: 0 auto;
   overflow: hidden;
 }
 
-@keyframes orbitalRotate {
+@keyframes carouselRotate {
   from {
-    transform: rotateX(20deg) rotateY(0deg) rotateZ(0deg);
+    transform: rotateY(0deg);
   }
   to {
-    transform: rotateX(20deg) rotateY(360deg) rotateZ(0deg);
-  }
-}
-
-@keyframes orbitalRotateReverse {
-  from {
-    transform: rotateX(20deg) rotateY(360deg) rotateZ(0deg);
-  }
-  to {
-    transform: rotateX(20deg) rotateY(0deg) rotateZ(0deg);
+    transform: rotateY(360deg);
   }
 }
 
@@ -318,8 +310,8 @@ button:hover {
   left: 50%;
   top: 50%;
   transform: translate(-50%,-50%);
-  width: 70%;
-  height: 78%;
+  width: 40%;
+  height: 50%;
   overflow: hidden;
   border-radius: 16px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);

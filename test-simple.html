@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Carousel Simple</title>
+    <style>
+        .box-carou {
+            width: 100%;
+            max-width: 880px;
+            height: 560px;
+            position: relative;
+            background: rgba(255,0,0,0.1);
+            border: 2px solid red;
+            margin: 20px auto;
+        }
+        .carousel-item {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,255,0,0.2);
+            border: 1px solid green;
+        }
+        .carousel-item-inner {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            width: 40%;
+            height: 50%;
+            background: rgba(0,0,255,0.2);
+            border: 1px solid blue;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+        .carousel-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Carousel Simple</h1>
+    <div class="box-carou" id="carousel3d">
+        <!-- Test avec une image statique -->
+        <div class="carousel-item">
+            <div class="carousel-item-inner">
+                <img src="Image/carousel/Clown.png" alt="Test" class="carousel-image">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('Test script loaded');
+        console.log('Image path test:', 'Image/carousel/Clown.png');
+
+        // Test de chargement d'image
+        const testImg = new Image();
+        testImg.src = 'Image/carousel/Clown.png';
+        testImg.onload = () => console.log('Image loaded successfully');
+        testImg.onerror = () => console.log('Image failed to load');
+
+        // Test du DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded');
+            const carousel = document.getElementById('carousel3d');
+            console.log('Carousel element:', carousel);
+        });
+    </script>
+</body>
+</html>

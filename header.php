@@ -7,7 +7,6 @@
     <title>portfolio Olbrechts johan</title>
     <link rel="stylesheet" href="css\style.css">
     <link rel="stylesheet" href="css\theme.css">
-    <link rel="stylesheet" href="css\carousel.css">
     <script src="js/script.js"></script>
     <script src="js/theme.js" defer></script>
 </head>
