@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+// Vérifier si l'utilisateur est connecté, sinon le rediriger vers la page de connexion
 if (!isset($_SESSION['user_id'])) {
     header('Location: User.php');
     exit;
@@ -8,6 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'header.php';
 
+// Récupérer les informations de l'utilisateur depuis la session
 $nom_de_compte = $_SESSION['user_nom_de_compte'];
 $nom = $_SESSION['user_nom'];
 $prenom = $_SESSION['user_prenom'];

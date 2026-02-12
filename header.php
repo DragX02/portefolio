@@ -55,7 +55,7 @@ if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_me'])) {
             <li class="nav-item">
                 <a class="nav-link" href="a-propos.php" aria-label="À Propos">
                     <img class="nav-icon" src="Image/logo/About2.png" alt="À Propos">
-                    <span class="nav-text">Code</span>
+                    <span class="nav-text">À Propos</span>
                 </a>
             </li>
             <li class="nav-item">
