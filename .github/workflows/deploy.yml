@@ -33,4 +33,4 @@ jobs:
           # 4. Recharger Nginx pour appliquer les changements si nécessaire
           sudo systemctl reload nginx
 
-# Note:22
+# Note:test deplaydeploy
