@@ -1,0 +1,24 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy files
+        run: |
+          # Copier les fichiers vers le dossier web (adapter le chemin)
+          rsync -av --exclude='config/config.php' ./ /var/www/html/portefolio/
+
+      - name: Set permissions
+        run: |
+          chmod -R 755 /var/www/html/portefolio/
+          chown -R www-data:www-data /var/www/html/portefolio/
