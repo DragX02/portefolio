@@ -32,3 +32,5 @@ jobs:
         run: |
           # 4. Recharger Nginx pour appliquer les changements si nécessaire
           sudo systemctl reload nginx
+
+# Note:
