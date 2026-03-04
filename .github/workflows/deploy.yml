@@ -15,10 +15,20 @@ jobs:
 
       - name: Deploy files
         run: |
-          # Copier les fichiers vers le dossier web (adapter le chemin)
-          rsync -av --exclude='config/config.php' ./ /var/www/html/portefolio/
+          # 1. Créer le dossier s'il n'existe pas
+          sudo mkdir -p /var/www/portefolio
+          
+          # 2. Synchroniser les fichiers avec sudo
+          # On utilise --delete pour supprimer les fichiers qui n'existent plus sur GitHub
+          sudo rsync -av --delete --exclude='.git*' --exclude='config/config.php' ./ /var/www/portefolio/
 
       - name: Set permissions
         run: |
-          chmod -R 755 /var/www/html/portefolio/
-          chown -R www-data:www-data /var/www/html/portefolio/
+          # 3. Ajuster les droits pour que Nginx puisse lire le site
+          sudo chmod -R 755 /var/www/portefolio/
+          sudo chown -R www-data:www-data /var/www/portefolio/
+
+      - name: Reload Nginx
+        run: |
+          # 4. Recharger Nginx pour appliquer les changements si nécessaire
+          sudo systemctl reload nginx
