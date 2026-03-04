@@ -1,30 +1,103 @@
-.dark-mode, html.dark-mode {
-  background: #121212;
-  color: #eaeaea;
+/* Theme clair */
+html:not(.dark-mode) body {
+    background-color: #f5f5f5;
+    color: #333;
 }
 
-.dark-mode nav, html.dark-mode nav {
-  background: #222;
+html:not(.dark-mode) header.background {
+    background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
 }
 
-.dark-mode .formbody {
-  background: #1b1b1b;
-  border-color: #333;
+html:not(.dark-mode) .nav-link {
+    color: #333;
 }
 
-.dark-mode .dropdown-menu {
-  background: #1e1e1e;
-  color: #ddd;
-  border-color: #333;
+html:not(.dark-mode) .nav-link.active {
+    color: #1976d2;
+    border-bottom-color: #1976d2;
 }
 
-.theme-toggle {
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 1.1rem;
-  cursor: pointer;
+html:not(.dark-mode) .formbody {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
 }
 
+html:not(.dark-mode) .formbody h1 {
+    color: #333;
+}
 
+html:not(.dark-mode) .form-group label {
+    color: #555;
+}
 
+html:not(.dark-mode) .form-group input,
+html:not(.dark-mode) .form-group textarea {
+    background-color: #f9f9f9;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+html:not(.dark-mode) .index-right {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+}
+
+html:not(.dark-mode) .challenge-box {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+}
+
+html:not(.dark-mode) .controls select {
+    background-color: #f9f9f9;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+html:not(.dark-mode) #description-exo {
+    color: #444;
+}
+
+html:not(.dark-mode) #description-exo code {
+    background-color: #f0f0f0;
+}
+
+html:not(.dark-mode) #description-exo pre {
+    background-color: #f0f0f0;
+}
+
+html:not(.dark-mode) .dropdown-menu {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+}
+
+html:not(.dark-mode) .dropdown-menu li a {
+    color: #333;
+}
+
+html:not(.dark-mode) .dropdown-menu li a:hover {
+    background-color: #f0f0f0;
+}
+
+html:not(.dark-mode) footer {
+    border-top: 1px solid #ddd;
+    color: #888;
+}
+
+html:not(.dark-mode) .theme-toggle {
+    border-color: #ccc;
+}
+
+html:not(.dark-mode) .profile-info strong {
+    color: #1976d2;
+}
+
+html:not(.dark-mode) .btn-connected {
+    color: #2e7d32 !important;
+}
+
+/* Dark mode (default) */
+.dark-mode body {
+    background-color: #121212;
+    color: white;
+}

@@ -1,6 +1,5 @@
-
-    <footer class="footer">
-        <p>© Mon Premier Modèle de Page Dynamique</p>
+    <footer>
+        <p>&copy; <?php echo date('Y'); ?> Portfolio Olbrechts Johan. Tous droits réservés.</p>
     </footer>
 </body>
 </html>

@@ -1,5 +1,12 @@
 <?php
-session_start();
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'gestionAuthentification.php';
+demarrer_session();
+
+if (est_connecte()) {
+    header('Location: profil.php');
+    exit;
+}
+
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'header.php';
 $Pseudo = $pdw = '';
 $erreurs = [];
@@ -7,22 +14,26 @@ $success = false;
 $remember = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!verifier_csrf_token($_POST['csrf_token'] ?? '')) {
+        $erreurs[] = "Erreur de sécurité, veuillez réessayer.";
+    }
+
     $Pseudo = trim($_POST["Pseudo"] ?? '');
     $pdw = trim($_POST["pdw"] ?? '');
     $remember = isset($_POST["remember"]) ? true : false;
-    
+
     if (empty($Pseudo)) {
         $erreurs[] = "Le pseudo est obligatoire.";
     } elseif (strlen($Pseudo) < 2 || strlen($Pseudo) > 255) {
         $erreurs[] = "Le pseudo doit contenir entre 2 et 255 caractères.";
     }
-    
+
     if (empty($pdw)) {
         $erreurs[] = "Le mot de passe est obligatoire.";
     } elseif (strlen($pdw) < 6) {
         $erreurs[] = "Le mot de passe doit contenir au moins 6 caractères.";
     }
-    
+
     if (empty($erreurs)) {
         require_once 'config/config.php';
         try {
@@ -32,24 +43,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user = $statement->fetch(PDO::FETCH_ASSOC);
 
             if ($user && password_verify($pdw, $user['pwd'])) {
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['user_nom_de_compte'] = $user['nom_de_compte'];
-                $_SESSION['user_nom'] = $user['nom'];
-                $_SESSION['user_prenom'] = $user['prenom'];
-                $_SESSION['user_mail'] = $user['mail'];
-                
+                connecter_utilisateur($user);
+
                 if ($remember) {
                     $token = bin2hex(random_bytes(32));
                     $token_hash = password_hash($token, PASSWORD_DEFAULT);
                     $expiration = time() + (30 * 24 * 60 * 60);
-                    
+
                     $_SESSION['remember_token'] = $token;
                     $_SESSION['remember_token_hash'] = $token_hash;
                     $_SESSION['remember_expiration'] = $expiration;
-                    
+
                     setcookie('remember_me', $token . '|' . $user['id'], $expiration, '/', '', false, true);
                 }
-                
+
                 header('Location: profil.php');
                 exit;
             } else {
@@ -65,7 +72,6 @@ ob_start();
 ?>
     <div class="formbody">
         <h1>Formulaire de connexion</h1>
-        
 
         <?php if ($success): ?>
             <p class="success">Connexion réussie ! Redirection...</p>
@@ -74,7 +80,6 @@ ob_start();
                     window.location.href = 'index.php';
                 }, 2000);
             </script>
-        
 
         <?php else: ?>
             <?php if (!empty($erreurs) && $_SERVER["REQUEST_METHOD"] == "POST"): ?>
@@ -85,6 +90,7 @@ ob_start();
                 </ul>
             <?php endif; ?>
             <form method="post">
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generer_csrf_token()); ?>">
                 <div class="form-group">
                     <label for="Pseudo">Nom de compte * :</label>
                     <input type="text" id="Pseudo" name="Pseudo" value="<?php echo htmlspecialchars($Pseudo); ?>" />
@@ -104,7 +110,7 @@ ob_start();
                 <button type="button">Inscrivez-vous</button>
                 </a>
             </form>
-            
+
         <?php endif; ?>
     </div>
 <?php

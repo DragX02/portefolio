@@ -1,18 +1,22 @@
 <?php
-session_start();
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'gestionAuthentification.php';
+demarrer_session();
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'header.php';
-
 
 $nom = $prenom = $email = $message = '';
 $erreurs = [];
 $success = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!verifier_csrf_token($_POST['csrf_token'] ?? '')) {
+        $erreurs[] = "Erreur de sécurité, veuillez réessayer.";
+    }
+
     $nom = trim(($_POST["nom"] ?? ''));
     $prenom = trim(($_POST["prenom"] ?? ''));
     $email = trim(($_POST["email"] ?? ''));
     $message = trim(($_POST["message"] ?? ''));
-    
+
     if (empty($nom)) {
         $erreurs[] = "Le nom est obligatoire.";
     } elseif (strlen($nom) < 2 || strlen($nom) > 255) {
@@ -22,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($prenom) && (strlen($prenom) < 2 || strlen($prenom) > 255)) {
         $erreurs[] = "Le prénom doit contenir entre 2 et 255 caractères.";
     }
-    
+
     if (empty($email)) {
         $erreurs[] = "L'email est obligatoire.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -51,32 +55,33 @@ ob_start();
             <?php if (!empty($erreurs) && $_SERVER["REQUEST_METHOD"] == "POST"): ?>
                 <ul class="error">
                     <?php foreach ($erreurs as $erreur): ?>
-                        <li><?php echo $erreur; ?></li>
+                        <li><?php echo htmlspecialchars($erreur); ?></li>
                     <?php endforeach; ?>
                 </ul>
             <?php endif; ?>
 
             <form method="post">
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generer_csrf_token()); ?>">
                 <div class="form-group">
                     <label for="nom">Nom *:</label>
-                    <input type="text" id="nom" name="nom" value="<?php echo $nom; ?>" required minlength="2" maxlength="255">
+                    <input type="text" id="nom" name="nom" value="<?php echo htmlspecialchars($nom); ?>" required minlength="2" maxlength="255">
                 </div>
                 <div class="form-group">
                     <label for="prenom">Prénom :</label>
-                    <input type="text" id="prenom" name="prenom" value="<?php echo $prenom; ?>" minlength="2" maxlength="255">
+                    <input type="text" id="prenom" name="prenom" value="<?php echo htmlspecialchars($prenom); ?>" minlength="2" maxlength="255">
                 </div>
                 <div class="form-group">
                     <label for="email">Email *:</label>
-                    <input type="email" id="email" name="email" value="<?php echo $email; ?>" required>
+                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="message">Message *:</label>
-                    <textarea id="message" name="message" required minlength="10" maxlength="3000"><?php echo $message; ?></textarea>
+                    <textarea id="message" name="message" required minlength="10" maxlength="3000"><?php echo htmlspecialchars($message); ?></textarea>
                 </div>
                 <button type="submit">Envoyer</button>
             </form>
         <?php endif; ?>
-                    </div>
+    </div>
 <?php
 $contact = ob_get_clean();
 echo $contact;

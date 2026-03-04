@@ -1,5 +1,12 @@
 <?php
-session_start();
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'gestionAuthentification.php';
+demarrer_session();
+
+if (est_connecte()) {
+    header('Location: profil.php');
+    exit;
+}
+
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'header.php';
 require_once 'config/config.php';
 
@@ -8,48 +15,52 @@ $erreurs = [];
 $success = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!verifier_csrf_token($_POST['csrf_token'] ?? '')) {
+        $erreurs[] = "Erreur de sécurité, veuillez réessayer.";
+    }
+
     $nom = trim($_POST["nom"] ?? '');
     $prenom = trim($_POST["prenom"] ?? '');
     $email = trim($_POST["email"] ?? '');
     $pass = trim($_POST["pass"] ?? '');
     $NomCompte = trim($_POST["NomCompte"] ?? '');
-    
+
     if (empty($nom)) {
         $erreurs[] = "Le nom est obligatoire.";
     } elseif (strlen($nom) < 2 || strlen($nom) > 255) {
         $erreurs[] = "Le nom doit contenir entre 2 et 255 caractères.";
     }
-    
+
     if (!empty($prenom) && (strlen($prenom) < 2 || strlen($prenom) > 255)) {
         $erreurs[] = "Le prénom doit contenir entre 2 et 255 caractères.";
     }
-    
+
     if (empty($email)) {
         $erreurs[] = "L'email est obligatoire.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $erreurs[] = "L'email n'est pas valide.";
     }
-    
-   if (empty($pass)) {
-    $erreurs[] = "Le mot de passe est obligatoire.";
+
+    if (empty($pass)) {
+        $erreurs[] = "Le mot de passe est obligatoire.";
     } elseif (strlen($pass) < 6) {
         $erreurs[] = "Le mot de passe doit contenir au moins 6 caractères.";
     }
-    
+
     if (empty($NomCompte)) {
         $erreurs[] = "Le nom du compte est obligatoire.";
     } elseif (strlen($NomCompte) < 3 || strlen($NomCompte) > 50) {
         $erreurs[] = "Le nom du compte doit contenir entre 3 et 50 caractères.";
     }
-    
+
     if (empty($erreurs)) {
         try {
             $hash_mdp = password_hash($pass, PASSWORD_DEFAULT);
-            
+
             $requete = "INSERT INTO User(nom, prenom, mail, pwd, nom_de_compte) VALUES(?, ?, ?, ?, ?)";
             $statement = $pdo->prepare($requete);
             $statement->execute([$nom, $prenom, $email, $hash_mdp, $NomCompte]);
-            
+
             $success = true;
         } catch (PDOException $e) {
             $erreurs[] = "Désolé, une erreur est survenue lors de l'inscription : " . $e->getMessage();
@@ -61,9 +72,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h1>Formulaire d'inscription</h1>
         <?php if ($success): ?>
             <p class="success">
-                Merci pour votre inscription, 
+                Merci pour votre inscription,
                 <?php echo htmlspecialchars($prenom) ? htmlspecialchars($prenom) . ' ' : ''; ?>
-                <?php echo htmlspecialchars($nom); ?> ! 
+                <?php echo htmlspecialchars($nom); ?> !
                 Votre compte a été créé avec succès.
             </p>
             <p><a href="User.php">Se connecter maintenant</a></p>
@@ -76,6 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </ul>
             <?php endif; ?>
             <form method="post">
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generer_csrf_token()); ?>">
                 <div class="form-group">
                     <label for="nom">Nom * :</label>
                     <input type="text" id="nom" name="nom" value="<?php echo htmlspecialchars($nom); ?>" required minlength="2" maxlength="255">

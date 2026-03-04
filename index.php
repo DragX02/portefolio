@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'gestionAuthentification.php';
+demarrer_session();
 $bodyClass = 'index-page';
 $metaDescription = "description de la page actuelle...";
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'header.php';
