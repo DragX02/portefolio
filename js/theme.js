@@ -1,13 +1,14 @@
 class themeClairDark {
     constructor(options = {}) {
-        this.storageKey = options.storageKey || 'theme';
+        this.cookieName = options.cookieName || 'theme';
         this.className = options.className || 'dark-mode';
         this.buttonSelector = options.buttonSelector || '#theme-toggle';
+        this.cookieDays = options.cookieDays || 365;
         this.init();
     }
 
     init() {
-        const savedTheme = localStorage.getItem(this.storageKey) || 'dark';
+        const savedTheme = this.getCookie(this.cookieName) || 'dark';
         this.appliTheme(savedTheme);
 
         const btn = document.querySelector(this.buttonSelector);
@@ -18,14 +19,14 @@ class themeClairDark {
     }
 
     toggle() {
-        const current = document.documentElement.classList.contains(this.className) ? 'dark' : 'light';
-        const newTheme = current === 'dark' ? 'light' : 'dark';
+        const isDark = document.documentElement.classList.contains(this.className);
+        const newTheme = isDark ? 'light' : 'dark';
         this.definiTheme(newTheme);
     }
 
     definiTheme(theme) {
         this.appliTheme(theme);
-        localStorage.setItem(this.storageKey, theme);
+        this.setCookie(this.cookieName, theme, this.cookieDays);
         const btn = document.querySelector(this.buttonSelector);
         if (btn) {
             this.updateButton(btn);
@@ -42,8 +43,18 @@ class themeClairDark {
 
     updateButton(btn) {
         const isDark = document.documentElement.classList.contains(this.className);
-        btn.textContent = isDark ? '\u2600\uFE0F' : '\uD83C\uDF19';
-        btn.setAttribute('aria-pressed', isDark);
+        btn.textContent = isDark ? '☀️' : '🌙';
+        btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+    }
+
+    setCookie(name, value, days) {
+        const expires = new Date(Date.now() + days * 864e5).toUTCString();
+        document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/; SameSite=Lax';
+    }
+
+    getCookie(name) {
+        const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+        return match ? decodeURIComponent(match[1]) : null;
     }
 }
 

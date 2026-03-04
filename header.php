@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="fr">
+<?php $htmlThemeClass = (isset($_COOKIE['theme']) && $_COOKIE['theme'] === 'light') ? '' : ' class="dark-mode"'; ?>
+<html lang="fr"<?php echo $htmlThemeClass; ?>>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
