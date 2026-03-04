@@ -8,7 +8,7 @@ class themeClairDark {
     }
 
     init() {
-        const savedTheme = this.getCookie(this.cookieName) || 'dark';
+        const savedTheme = this.getCookie(this.cookieName) || 'light';
         this.appliTheme(savedTheme);
 
         const btn = document.querySelector(this.buttonSelector);
