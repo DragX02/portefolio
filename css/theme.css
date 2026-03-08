@@ -1,23 +1,28 @@
+/* couleurs de base en mode sombre */
 .dark-mode, html.dark-mode {
   background: #121212;
   color: #eaeaea;
 }
 
+/* navigation en mode sombre */
 .dark-mode nav, html.dark-mode nav {
   background: #222;
 }
 
+/* formulaires en mode sombre */
 .dark-mode .formbody {
   background: #1b1b1b;
   border-color: #333;
 }
 
+/* menu dropdown en mode sombre */
 .dark-mode .dropdown-menu {
   background: #1e1e1e;
   color: #ddd;
   border-color: #333;
 }
 
+/* bouton de bascule du thème */
 .theme-toggle {
   background: transparent;
   border: none;
@@ -25,6 +30,3 @@
   font-size: 1.1rem;
   cursor: pointer;
 }
-
-
-

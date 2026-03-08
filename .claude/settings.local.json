@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(\"g:/www/portefolio/index.php\":*)",
+      "Bash(\"g:/www/portefolio/css/theme.css\":*)"
+    ]
+  }
+}

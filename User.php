@@ -1,4 +1,6 @@
 <?php
+// ob_start doit être en tout premier pour permettre header() après l'envoi de HTML
+ob_start();
 session_start();
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'header.php';
 $Pseudo = $pdw = '';
@@ -7,16 +9,19 @@ $success = false;
 $remember = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // récupération et nettoyage des données du formulaire
     $Pseudo = trim($_POST["Pseudo"] ?? '');
     $pdw = trim($_POST["pdw"] ?? '');
     $remember = isset($_POST["remember"]) ? true : false;
     
+    // validation du pseudo
     if (empty($Pseudo)) {
         $erreurs[] = "Le pseudo est obligatoire.";
     } elseif (strlen($Pseudo) < 2 || strlen($Pseudo) > 255) {
         $erreurs[] = "Le pseudo doit contenir entre 2 et 255 caractères.";
     }
     
+    // validation du mot de passe
     if (empty($pdw)) {
         $erreurs[] = "Le mot de passe est obligatoire.";
     } elseif (strlen($pdw) < 6) {
@@ -26,18 +31,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($erreurs)) {
         require_once 'config/config.php';
         try {
+            // recherche de l'utilisateur par nom de compte
             $requete = "SELECT * FROM User WHERE nom_de_compte = ?";
             $statement = $pdo->prepare($requete);
             $statement->execute([$Pseudo]);
             $user = $statement->fetch(PDO::FETCH_ASSOC);
 
+            // vérification du mot de passe haché
             if ($user && password_verify($pdw, $user['pwd'])) {
+                // stockage des données utilisateur en session
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_nom_de_compte'] = $user['nom_de_compte'];
                 $_SESSION['user_nom'] = $user['nom'];
                 $_SESSION['user_prenom'] = $user['prenom'];
                 $_SESSION['user_mail'] = $user['mail'];
                 
+                // gestion du cookie "se souvenir de moi" (30 jours)
                 if ($remember) {
                     $token = bin2hex(random_bytes(32));
                     $token_hash = password_hash($token, PASSWORD_DEFAULT);
@@ -50,6 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     setcookie('remember_me', $token . '|' . $user['id'], $expiration, '/', '', false, true);
                 }
                 
+                // redirection vers le profil après connexion réussie
                 header('Location: profil.php');
                 exit;
             } else {
@@ -61,7 +71,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-ob_start();
 ?>
     <div class="formbody">
         <h1>Formulaire de connexion</h1>
@@ -77,6 +86,7 @@ ob_start();
         
 
         <?php else: ?>
+            <!-- affichage des erreurs de validation -->
             <?php if (!empty($erreurs) && $_SERVER["REQUEST_METHOD"] == "POST"): ?>
                 <ul class="error">
                     <?php foreach ($erreurs as $erreur): ?>
@@ -108,7 +118,6 @@ ob_start();
         <?php endif; ?>
     </div>
 <?php
-$contact = ob_get_clean();
-echo $contact;
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'footer.php';
+ob_end_flush();
 ?>

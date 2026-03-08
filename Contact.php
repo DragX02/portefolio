@@ -2,39 +2,45 @@
 session_start();
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'header.php';
 
-
+// initialisation des champs et des variables d'état
 $nom = $prenom = $email = $message = '';
 $erreurs = [];
 $success = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // récupération et nettoyage des données du formulaire
     $nom = trim(($_POST["nom"] ?? ''));
     $prenom = trim(($_POST["prenom"] ?? ''));
     $email = trim(($_POST["email"] ?? ''));
     $message = trim(($_POST["message"] ?? ''));
     
+    // validation du nom
     if (empty($nom)) {
         $erreurs[] = "Le nom est obligatoire.";
     } elseif (strlen($nom) < 2 || strlen($nom) > 255) {
         $erreurs[] = "Le nom doit contenir entre 2 et 255 caractères.";
     }
 
+    // validation du prénom (optionnel)
     if (!empty($prenom) && (strlen($prenom) < 2 || strlen($prenom) > 255)) {
         $erreurs[] = "Le prénom doit contenir entre 2 et 255 caractères.";
     }
     
+    // validation de l'email
     if (empty($email)) {
         $erreurs[] = "L'email est obligatoire.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $erreurs[] = "L'email n'est pas valide.";
     }
 
+    // validation du message
     if (empty($message)) {
         $erreurs[] = "Le message est obligatoire.";
     } elseif (strlen($message) < 10 || strlen($message) > 3000) {
         $erreurs[] = "Le message doit contenir entre 10 et 3000 caractères.";
     }
 
+    // si aucune erreur, on marque le formulaire comme envoyé
     if (empty($erreurs)) {
         $success = true;
     }
@@ -46,8 +52,10 @@ ob_start();
         <h1>Formulaire de contact</h1>
 
         <?php if ($success): ?>
+            <!-- message de confirmation après envoi -->
             <p class="success">Merci pour votre message, <?php echo (htmlspecialchars($prenom)) ? (htmlspecialchars($prenom)) . ' ' : ''; ?><?php echo (htmlspecialchars($nom)); ?> ! Nous vous contacterons à l'adresse <?php echo (htmlspecialchars($email)); ?>.</p>
         <?php else: ?>
+            <!-- affichage des erreurs de validation -->
             <?php if (!empty($erreurs) && $_SERVER["REQUEST_METHOD"] == "POST"): ?>
                 <ul class="error">
                     <?php foreach ($erreurs as $erreur): ?>

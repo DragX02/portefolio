@@ -15,22 +15,18 @@ jobs:
 
       - name: Deploy files
         run: |
-          # 1. Créer le dossier s'il n'existe pas
+          # creer le dossier s'il n'existe pas
           sudo mkdir -p /var/www/portefolio
-          
-          # 2. Synchroniser les fichiers avec sudo
-          # On utilise --delete pour supprimer les fichiers qui n'existent plus sur GitHub
+          # synchroniser les fichiers, config.php exclu pour ne pas ecraser les credentials
           sudo rsync -av --delete --exclude='.git*' --exclude='config/config.php' ./ /var/www/portefolio/
 
       - name: Set permissions
         run: |
-          # 3. Ajuster les droits pour que Nginx puisse lire le site
+          # ajuster les droits pour que Nginx puisse lire le site
           sudo chmod -R 755 /var/www/portefolio/
           sudo chown -R www-data:www-data /var/www/portefolio/
 
       - name: Reload Nginx
         run: |
-          # 4. Recharger Nginx pour appliquer les changements si nécessaire
+          # recharger Nginx pour appliquer les changements
           sudo systemctl reload nginx
-
-# Note:test deplaydeploy

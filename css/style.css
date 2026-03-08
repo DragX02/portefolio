@@ -1,3 +1,4 @@
+/* styles de base du body */
 body {
     margin: 0;
     padding: 0;
@@ -7,12 +8,14 @@ body {
     overflow-x: hidden;
 }
 
+/* barre de navigation en haut de page */
 header.background {
     background-color: #1e1e1e;
     padding: 10px 20px;
     border-bottom: 1px solid #333;
 }
 
+/* liste de navigation horizontale centrée */
 .nav {
     display: flex;
     justify-content: center;
@@ -23,6 +26,7 @@ header.background {
     gap: 30px;
 }
 
+/* lien de navigation avec icône et texte */
 .nav-link {
     display: flex;
     align-items: center;
@@ -32,12 +36,14 @@ header.background {
     font-size: 16px;
 }
 
+/* icône dans la navigation */
 .nav-icon {
     width: 30px;
     height: 30px;
     object-fit: contain;
 }
 
+/* mise en page de la page d'accueil : carousel à gauche, aside à droite */
 .index-main {
     display: flex;
     flex-direction: row;
@@ -46,6 +52,7 @@ header.background {
     gap: 20px;
 }
 
+/* zone principale du carousel (3/4 de la largeur) */
 .index-left {
     flex: 3;
     display: flex;
@@ -54,6 +61,7 @@ header.background {
     position: relative;
 }
 
+/* colonne latérale droite */
 .index-right {
     flex: 1;
     max-width: 300px;
@@ -63,6 +71,7 @@ header.background {
     height: fit-content;
 }
 
+/* conteneur principal du carousel 3D */
 #carousel3d {
     width: 100% !important;
     height: 400px !important;
@@ -74,6 +83,7 @@ header.background {
     overflow: visible !important;
 }
 
+/* disque rotatif qui tourne en 3D */
 #spinner-3d {
     width: 250px !important;
     height: 180px !important;
@@ -83,6 +93,7 @@ header.background {
     transform-origin: center center !important;
 }
 
+/* chaque face du carousel (une image) */
 .item-3d {
     position: absolute !important;
     width: 250px !important;
@@ -96,6 +107,7 @@ header.background {
     backface-visibility: hidden !important;
 }
 
+/* image à l'intérieur de chaque face */
 .item-3d img {
     width: 100% !important;
     height: 100% !important;
@@ -103,6 +115,7 @@ header.background {
     display: block !important;
 }
 
+/* barre de boutons de contrôle du carousel */
 .nav-3d {
     position: absolute !important;
     bottom: -80px !important;
@@ -111,6 +124,7 @@ header.background {
     z-index: 100 !important;
 }
 
+/* boutons précédent / pause / suivant */
 .nav-3d button {
     cursor: pointer !important;
     background: white !important;

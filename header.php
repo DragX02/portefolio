@@ -11,24 +11,28 @@
     <script src="js/theme.js" defer></script>
 </head>
 <?php
+// démarrage de la session si elle n'est pas déjà active
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// vérification du cookie "se souvenir de moi" pour reconnecter l'utilisateur automatiquement
 if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_me'])) {
     try {
         $cookie_parts = explode('|', $_COOKIE['remember_me']);
         if (count($cookie_parts) == 2) {
             $token = $cookie_parts[0];
             $user_id = intval($cookie_parts[1]);
-            
+
+            // vérification que la session mémorisée n'est pas expirée
             if (isset($_SESSION['remember_expiration']) && time() < $_SESSION['remember_expiration']) {
                 require_once __DIR__ . DIRECTORY_SEPARATOR . 'config/config.php';
                 $requete = "SELECT * FROM User WHERE id = ?";
                 $statement = $pdo->prepare($requete);
                 $statement->execute([$user_id]);
                 $user = $statement->fetch(PDO::FETCH_ASSOC);
-                
+
+                // si l'utilisateur existe, on restaure sa session
                 if ($user) {
                     $_SESSION['user_id'] = $user['id'];
                     $_SESSION['user_nom_de_compte'] = $user['nom_de_compte'];
@@ -66,6 +70,7 @@ if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_me'])) {
             </li>
             <li class="nav-item dropdown">
                 <?php if (isset($_SESSION['user_id'])): ?>
+                    <!-- utilisateur connecté : menu mon compte avec profil et déconnexion -->
                     <a class="nav-link btn-connected dropdown-toggle" href="#" aria-label="Mon compte">
                         <img class="nav-icon" src="Image/logo/User.png" alt="Mon compte">
                         <span class="nav-text">Mon compte</span>
@@ -75,6 +80,7 @@ if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_me'])) {
                         <li><a href="logout.php">Déconnexion</a></li>
                     </ul>
                 <?php else: ?>
+                    <!-- utilisateur non connecté : bouton vers la page de connexion -->
                     <a class="nav-link btn-disconnected" href="user.php" aria-label="Connexion">
                         <img class="nav-icon" src="Image/logo/User.png" alt="Connexion">
                         <span class="nav-text">Connexion</span>
