@@ -1,7 +1,9 @@
 <?php
-session_start();
+ob_start();
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'gestionAuthentification.php';
+demarrer_session();
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'header.php';
-require_once 'config/config.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php';
 
 // initialisation des champs et des variables d'état
 $nom = $prenom = $email = $pass = $NomCompte = '';
@@ -15,50 +17,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST["email"] ?? '');
     $pass = trim($_POST["pass"] ?? '');
     $NomCompte = trim($_POST["NomCompte"] ?? '');
-    
+
     // validation du nom
     if (empty($nom)) {
         $erreurs[] = "Le nom est obligatoire.";
     } elseif (strlen($nom) < 2 || strlen($nom) > 255) {
         $erreurs[] = "Le nom doit contenir entre 2 et 255 caractères.";
     }
-    
+
     // validation du prénom (optionnel)
     if (!empty($prenom) && (strlen($prenom) < 2 || strlen($prenom) > 255)) {
         $erreurs[] = "Le prénom doit contenir entre 2 et 255 caractères.";
     }
-    
+
     // validation de l'email
     if (empty($email)) {
         $erreurs[] = "L'email est obligatoire.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $erreurs[] = "L'email n'est pas valide.";
     }
-    
+
     // validation du mot de passe
-   if (empty($pass)) {
-    $erreurs[] = "Le mot de passe est obligatoire.";
+    if (empty($pass)) {
+        $erreurs[] = "Le mot de passe est obligatoire.";
     } elseif (strlen($pass) < 6) {
         $erreurs[] = "Le mot de passe doit contenir au moins 6 caractères.";
     }
-    
+
     // validation du nom de compte
     if (empty($NomCompte)) {
         $erreurs[] = "Le nom du compte est obligatoire.";
     } elseif (strlen($NomCompte) < 3 || strlen($NomCompte) > 50) {
         $erreurs[] = "Le nom du compte doit contenir entre 3 et 50 caractères.";
     }
-    
+
     // insertion en base de données si aucune erreur
     if (empty($erreurs)) {
         try {
             // hachage du mot de passe avant stockage
             $hash_mdp = password_hash($pass, PASSWORD_DEFAULT);
-            
+
             $requete = "INSERT INTO User(nom, prenom, mail, pwd, nom_de_compte) VALUES(?, ?, ?, ?, ?)";
             $statement = $pdo->prepare($requete);
             $statement->execute([$nom, $prenom, $email, $hash_mdp, $NomCompte]);
-            
+
             $success = true;
         } catch (PDOException $e) {
             $erreurs[] = "Désolé, une erreur est survenue lors de l'inscription : " . $e->getMessage();
@@ -71,9 +73,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if ($success): ?>
             <!-- message de succès après inscription -->
             <p class="success">
-                Merci pour votre inscription, 
+                Merci pour votre inscription,
                 <?php echo htmlspecialchars($prenom) ? htmlspecialchars($prenom) . ' ' : ''; ?>
-                <?php echo htmlspecialchars($nom); ?> ! 
+                <?php echo htmlspecialchars($nom); ?> !
                 Votre compte a été créé avec succès.
             </p>
             <p><a href="User.php">Se connecter maintenant</a></p>
@@ -105,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="form-group">
                     <label for="pass">Mot de passe * :</label>
-                    <input type="password" id="pass" name="pass" required minlength="8" maxlength="72">
+                    <input type="password" id="pass" name="pass" required minlength="6" maxlength="72">
                 </div>
                 <button type="submit">Valider</button>
                 <a href="User.php">
@@ -116,4 +118,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 <?php
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'footer.php';
+ob_end_flush();
 ?>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="fr">
+<?php $htmlThemeClass = (isset($_COOKIE['theme']) && $_COOKIE['theme'] === 'dark') ? ' class="dark-mode"' : ''; ?>
+<html lang="fr"<?php echo $htmlThemeClass; ?>>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,13 +12,12 @@
     <script src="js/theme.js" defer></script>
 </head>
 <?php
-// démarrage de la session si elle n'est pas déjà active
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+// chargement des fonctions d'authentification et démarrage de la session
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'gestionAuthentification.php';
+demarrer_session();
 
 // vérification du cookie "se souvenir de moi" pour reconnecter l'utilisateur automatiquement
-if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_me'])) {
+if (!est_connecte() && isset($_COOKIE['remember_me'])) {
     try {
         $cookie_parts = explode('|', $_COOKIE['remember_me']);
         if (count($cookie_parts) == 2) {
@@ -34,44 +34,43 @@ if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_me'])) {
 
                 // si l'utilisateur existe, on restaure sa session
                 if ($user) {
-                    $_SESSION['user_id'] = $user['id'];
-                    $_SESSION['user_nom_de_compte'] = $user['nom_de_compte'];
-                    $_SESSION['user_nom'] = $user['nom'];
-                    $_SESSION['user_prenom'] = $user['prenom'];
-                    $_SESSION['user_mail'] = $user['mail'];
+                    connecter_utilisateur($user);
                 }
             }
         }
     } catch (Exception $e) {
     }
 }
+
+// détection de la page courante pour mettre le lien actif dans la nav
+$pageCourante = basename($_SERVER['PHP_SELF']);
 ?>
 <body<?php echo isset($bodyClass) ? ' class="'.htmlspecialchars($bodyClass).'"' : ''; ?>>
     <header class="background">
         <nav>
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="index.php" aria-label="Accueil">
+                <a class="nav-link<?php echo ($pageCourante === 'index.php') ? ' active' : ''; ?>" href="index.php" aria-label="Accueil">
                     <img class="nav-icon" src="Image/logo/accueil.png" alt="Accueil">
                     <span class="nav-text">Accueil</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="a-propos.php" aria-label="À Propos">
+                <a class="nav-link<?php echo ($pageCourante === 'a-propos.php') ? ' active' : ''; ?>" href="a-propos.php" aria-label="À Propos">
                     <img class="nav-icon" src="Image/logo/About2.png" alt="À Propos">
-                    <span class="nav-text">À Propos</span>
+                    <span class="nav-text">Code</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="contact.php" aria-label="Contact">
+                <a class="nav-link<?php echo ($pageCourante === 'Contact.php' || $pageCourante === 'contact.php') ? ' active' : ''; ?>" href="Contact.php" aria-label="Contact">
                     <img class="nav-icon" src="Image/logo/contact.png" alt="Contact">
                     <span class="nav-text">Contact</span>
                 </a>
             </li>
             <li class="nav-item dropdown">
-                <?php if (isset($_SESSION['user_id'])): ?>
+                <?php if (est_connecte()): ?>
                     <!-- utilisateur connecté : menu mon compte avec profil et déconnexion -->
-                    <a class="nav-link btn-connected dropdown-toggle" href="#" aria-label="Mon compte">
+                    <a class="nav-link btn-connected dropdown-toggle<?php echo ($pageCourante === 'profil.php') ? ' active' : ''; ?>" href="#" aria-label="Mon compte">
                         <img class="nav-icon" src="Image/logo/User.png" alt="Mon compte">
                         <span class="nav-text">Mon compte</span>
                     </a>
@@ -81,7 +80,7 @@ if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_me'])) {
                     </ul>
                 <?php else: ?>
                     <!-- utilisateur non connecté : bouton vers la page de connexion -->
-                    <a class="nav-link btn-disconnected" href="user.php" aria-label="Connexion">
+                    <a class="nav-link btn-disconnected<?php echo ($pageCourante === 'User.php' || $pageCourante === 'Inscription.php') ? ' active' : ''; ?>" href="User.php" aria-label="Connexion">
                         <img class="nav-icon" src="Image/logo/User.png" alt="Connexion">
                         <span class="nav-text">Connexion</span>
                     </a>

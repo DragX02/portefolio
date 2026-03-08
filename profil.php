@@ -1,8 +1,9 @@
 <?php
-session_start();
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'gestionAuthentification.php';
+demarrer_session();
 
 // vérifier si l'utilisateur est connecté, sinon le rediriger vers la page de connexion
-if (!isset($_SESSION['user_id'])) {
+if (!est_connecte()) {
     header('Location: User.php');
     exit;
 }

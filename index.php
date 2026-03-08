@@ -1,6 +1,6 @@
 <?php
-// démarrage de la session
-session_start();
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'gestionAuthentification.php';
+demarrer_session();
 // classe CSS appliquée au body et meta description de la page
 $bodyClass = 'index-page';
 $metaDescription = "description de la page actuelle...";

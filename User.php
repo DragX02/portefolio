@@ -1,8 +1,10 @@
 <?php
-// ob_start doit être en tout premier pour permettre header() après l'envoi de HTML
+// ob_start en premier pour permettre header() après l'envoi de HTML
 ob_start();
-session_start();
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'gestionAuthentification.php';
+demarrer_session();
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'header.php';
+
 $Pseudo = $pdw = '';
 $erreurs = [];
 $success = false;
@@ -13,23 +15,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Pseudo = trim($_POST["Pseudo"] ?? '');
     $pdw = trim($_POST["pdw"] ?? '');
     $remember = isset($_POST["remember"]) ? true : false;
-    
+
     // validation du pseudo
     if (empty($Pseudo)) {
         $erreurs[] = "Le pseudo est obligatoire.";
     } elseif (strlen($Pseudo) < 2 || strlen($Pseudo) > 255) {
         $erreurs[] = "Le pseudo doit contenir entre 2 et 255 caractères.";
     }
-    
+
     // validation du mot de passe
     if (empty($pdw)) {
         $erreurs[] = "Le mot de passe est obligatoire.";
     } elseif (strlen($pdw) < 6) {
         $erreurs[] = "Le mot de passe doit contenir au moins 6 caractères.";
     }
-    
+
     if (empty($erreurs)) {
-        require_once 'config/config.php';
+        require_once __DIR__ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php';
         try {
             // recherche de l'utilisateur par nom de compte
             $requete = "SELECT * FROM User WHERE nom_de_compte = ?";
@@ -40,25 +42,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // vérification du mot de passe haché
             if ($user && password_verify($pdw, $user['pwd'])) {
                 // stockage des données utilisateur en session
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['user_nom_de_compte'] = $user['nom_de_compte'];
-                $_SESSION['user_nom'] = $user['nom'];
-                $_SESSION['user_prenom'] = $user['prenom'];
-                $_SESSION['user_mail'] = $user['mail'];
-                
+                connecter_utilisateur($user);
+
                 // gestion du cookie "se souvenir de moi" (30 jours)
                 if ($remember) {
                     $token = bin2hex(random_bytes(32));
                     $token_hash = password_hash($token, PASSWORD_DEFAULT);
                     $expiration = time() + (30 * 24 * 60 * 60);
-                    
+
                     $_SESSION['remember_token'] = $token;
                     $_SESSION['remember_token_hash'] = $token_hash;
                     $_SESSION['remember_expiration'] = $expiration;
-                    
+
                     setcookie('remember_me', $token . '|' . $user['id'], $expiration, '/', '', false, true);
                 }
-                
+
                 // redirection vers le profil après connexion réussie
                 header('Location: profil.php');
                 exit;
@@ -70,11 +68,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
-
 ?>
     <div class="formbody">
         <h1>Formulaire de connexion</h1>
-        
 
         <?php if ($success): ?>
             <p class="success">Connexion réussie ! Redirection...</p>
@@ -83,7 +79,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     window.location.href = 'index.php';
                 }, 2000);
             </script>
-        
 
         <?php else: ?>
             <!-- affichage des erreurs de validation -->
@@ -114,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="button">Inscrivez-vous</button>
                 </a>
             </form>
-            
+
         <?php endif; ?>
     </div>
 <?php

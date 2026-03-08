@@ -1,15 +1,9 @@
 <?php
-session_start();
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'gestionAuthentification.php';
+demarrer_session();
 
-// Détruire la session
-session_destroy();
+deconnecter_utilisateur();
 
-// Supprimer le cookie "Se souvenir de moi"
-if (isset($_COOKIE['remember_me'])) {
-    setcookie('remember_me', '', time() - 3600, '/');
-}
-
-// Rediriger vers la page de connexion
 header('Location: User.php');
 exit;
 ?>
